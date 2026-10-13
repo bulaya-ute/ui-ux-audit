@@ -167,3 +167,33 @@ P-1 (the OverlayPortal/Positioned giant-panel family of fixes), V-2
 testing disciplines (real-lighting/weak-Wi-Fi checks), VUI dialogue patterns,
 companion-device handoff pattern — none have evidence in-product yet; they
 promote when a real audit touches that territory.
+---
+
+## 2026-10-14 · Portals batch pt3 — Ant Design Pro + Plausible theme policy
+
+**Ant Design Pro** (preview, light): KPI-tile grammar captured (title/value/
+delta chips + mini bar + sparkline), medal-chip ranked lists, icon-rail with
+hover-expand, floating settings drawer. **Delta finding**: its chips render
+red-up/green-down ("周同比 12%▲ red") — the Chinese-market convention
+(red = up/good) — a *third, culturally opposed* policy instance for X-5
+delta-color-policy: the rule's core claim ("document your policy") now spans
+direction-based (Plausible, Tabler) AND market-convention (Ant Pro) systems.
+Drawer harvest (T0s: exemplar-antpro-settings-drawer.jpg): self-service
+chrome configurator — nav modes (left/split/right), content width++
+流式/固定, fixed-header/menu toggles, primary palette swatches — a strong
+exemplar that N-3 sidebar-collapsibility decisions can be USER-configurable.
+Failed dark-switch attempt documented (image-card picker not script-clickable;
+drawer grammar evidence retained). Primary color rolled to orange mid-study —
+the template state, not a defect claim.
+
+**Plausible theme policy solved**: `prefers-color-scheme` matched → html
+class flips to `dark` automatically (`schemeDark: true`, class
+`h-full plausible dark`) — study 1's dark rendering was OS-responsive, not a
+locked theme. Corroborates V-1 (both themes first-class) and adds nuance to
+X-5 (policy interactions with responsive theming).
+
+Skips this stretch: none new (airbnb/polaris/design-for-driving previously
+logged; hay matches team preference to not force).
+
+**KB effect**: none structural; X-5 gains locale-awareness nuance. Rule count
+unchanged at 39. Evidence: 2 new screenshots in docs/img.
