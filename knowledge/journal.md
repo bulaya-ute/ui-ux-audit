@@ -5,6 +5,49 @@ narrative diff of the knowledge base; `checks.csv`/`profiles.md` are the state.
 
 ---
 
+## 2026-10-14 · Exemplar study 1 — Booking.com (public booking flow)
+
+**Method**: skill applied as-pattern-harvest, not defect-hunt. Fingerprint:
+phone/web · passenger-task analog · standalone · anonymous audience · touch.
+Evidence: T0s screenshots (4, in `docs/img/`), T0m DOM-rect harvest (121
+layout rects, property-card anatomy: consistent 729×274 cards), browser-find
+probes. Pages: home gate → results (25 cards, Lusaka) → property page.
+
+**Patterns observed worth encoding (candidates):**
+
+1. **F-6 `search-context-persistence`** (`candidate`) — the search criteria
+   bar (destination/dates/occupancy chips) stays visible AND editable on both
+   results and property pages; refining never loses the result context.
+2. **W-3 `cta-names-missing-input`** (`candidate`) — when a prerequisite
+   isn't set yet, the card CTA literally names what's missing ("Select
+   dates") instead of a generic action that would dead-end.
+3. **V-5 `skeleton-in-place`** (`candidate`) — partial-data rails render
+   visible skeleton bars while loading, never blank panels (review breakdown
+   on the property page).
+4. **A-5 `filter-count-preview`** (`candidate`) — each filter shows the
+   current result count it would produce (59, 49, 138…) — actuation honesty.
+5. **W-4 `auth-gate-dismissable`** (`candidate`) — the sign-in promo is a
+   closable modal offered once, never forced; browsing continues ( contra
+   forced-gates our apps must avoid).
+6. **A-6 `hierarchical-orientation`** (`candidate`) — breadcrumb chain on
+   deep pages (Home → Zambia → Lusaka Province → Lusaka → property) plus
+   in-page section tabs with counts ("Guest reviews (295)").
+7. **W-5 `trust-signals-near-cta`** (`candidate`) — review count + rating
+   band sit adjacent to the price/CTA cluster, not in a distant stats page.
+
+**Notes**: `per night` / price-basis labeling was present in body text
+(W-family already covered by W-2 drift? No — seed a rule only if it repeats
+in another exemplar; held as observation). Wishlist heart button 36×36 sits
+at ≥8px from the CTA cluster — the relational target rule (T-1) holding on
+a world-class site. Left with back-stack intact via breadcrumbs + tabs; no
+dead ends encountered.
+
+**Status**: all 7 seeded `candidate`; promote on next corroboration (second
+exemplar or in-product recurrence). Screenshots stored under repo
+`docs/img/exemplar-*.jpg` as the public-facing evidence set.
+
+---
+
 ## 2026-10-14 · KB v1.1 — system fingerprint, overrides, wireframes, consent
 
 **Source**: user requirements for the public release — five structural
