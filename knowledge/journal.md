@@ -3,6 +3,63 @@
 Newest first. One entry per audit session or KB change. This file is the
 narrative diff of the knowledge base; `checks.csv`/`profiles.md` are the state.
 
+## 2026-10-14 · Exemplar batch 2 — web systems sweep (7 systems, 5 landed)
+
+**Method**: same skill, pattern-harvest stance; screenshots (T0s) +
+`browser.evaluate` structural probes + code-level reads via GitHub API (T1,
+cal.com). Deferred with reasons: Airbnb (bot-walled the search route), Polar
+(Shopify migrated their docs; old Polaris routes 404), Design-for-Driving
+(public URLs dead — need the alternate Google surface), Figma community
+clones / app-store screens (next epoch; native-mobile internals).
+
+### Systems landed
+- **Stripe** (`stripe.com`) — live hero *metric-as-trust* ("Global GDP running
+  on Stripe: 1.731…%"), restrained dual CTA, logo wall. Marketing-landing
+  corroboration: evidence-in-copy beats claims.
+- **Linear** — captured mid-entrance-animation (black hero → content animates
+  in): a deliberate brand choice but also a caution that animation-first
+  heroes resist audit evidence; their skip-link + nav survived capture.
+- **Grafana Play** — (a) boot sequence: generic spinner → **branded logo**
+  boot state (zero blank screen); candidate **V-7 boot-state-branded**;
+  (b) their 404 lands as a *structured recovery page*: heading + explanation
+  + primary "Back to Home" + secondary "Community Help" + toast — direct
+  corroboration for the new flow rule below; (c) dashboards list: scope
+  chips (tag/owner), visibility toggles, folder tree.
+- **cal.com** — the 404 page itself converts: "The username /hari is still
+  **available**" with a register CTA embedding the subject of the miss.
+  Code-level harvest (T1): `packages/ui/components` ships `EmptyScreen`
+  (headline+description+CTA contract, dashed border), `Skeleton`, `Loader`,
+  `errorBoundary` — **state-hole prevention as reusable primitives**, not
+  per-screen patches.
+- **Plausible (live demo)** — honest dark data-dense: 6 KPI tiles with delta
+  arrows, chart, segmented bottom tables, live presence dot (81), date-range
+  + filter in one header row. Notable policy: **delta coloring is
+  direction-based** (green ↑/red ↓), so bounce-rate *improving* renders red
+  — a conscious system decision. Candidate **X-5 delta-color-policy**:
+  systems must document goodness-based vs direction-based sequenced colors.
+- **Bolt** — ride-domain giant's landing: minimal white page, ONE vivid green
+  CTA ("Get Bolt") weight-differentiated against a grey tonal sibling
+  ("Get Bolt Food") — multi-product weight grammar, and brand-green in the
+  wild confirming our palette choice reads serious.
+
+### Promotions & seeds
+- **PROMOTED → established: V-5 skeleton-in-place** — corroborated Booking.com
+  study-1 (T0s) + cal.com `Skeleton`/`Loader` primitives (T1).
+- **NEW established: F-9 not-found-offers-recovery** — two independent
+  exemplars (Grafana 404 recovery page + cal.com 404→conversion). Not-found
+  is never a dead end: explain, offer primary + secondary recovery paths,
+  and where possible turn the miss into value.
+- **NEW candidates: V-7 boot-state-branded** (Grafana boot sequence),
+  **X-5 delta-color-policy** (Plausible direction-based coloring).
+- Kept `candidate` (single corroboration each, from study 1): F-6
+  search-context-persistence, W-3 cta-names-missing-input, A-5
+  filter-count-preview, W-4 auth-gate-dismissable, A-6
+  hierarchical-orientation, W-5 trust-signals-near-cta.
+
+**Provenance**: screenshots in `docs/img/exemplar-{stripe,calcom-404,
+grafana-boot-spinner,grafana-404-recovery,grafana-dashboards-list,
+plausible-live-dashboard,bolt-home}.jpg` (13 images total now).
+
 ---
 
 ## 2026-10-14 · Exemplar study 1 — Booking.com (public booking flow)
