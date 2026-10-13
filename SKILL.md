@@ -36,17 +36,24 @@ worse than silence: they burn the user's trust in the report.
    they can never be Blockers.
 2. **Profiles calibrate, they don't excuse.** The same pattern (3-line cards,
    24px targets, dense tables) may be correct in an admin data tool and a
-   defect in a one-handed driver app in motion.Always read the app's profile
-   from `knowledge/profiles.md` (or compose one with the user) *before*
-   applying row-level rules.
-3. **The KB is the memory.** Read `knowledge/checks.csv` at the start of every
-   audit — do not rely on memory of rules. New recurring defect classes and
-   user corrections grow the KB through the journal protocol (below). This
-   skill should get better every time it is used.
-4. **Report only, unless told otherwise.** Audits do not edit code. If the
+   defect in a one-handed driver app in motion. Always fingerprint the
+   *system* first (`knowledge/system-classification.md`), then read the
+   app's profile from `knowledge/profiles.md` (or compose one with the user)
+   *before* applying row-level rules.
+3. **The KB is layered; the base is public.** What every installed user gets
+   is the shipped base (`checks.csv` + `profiles.md`). User intent lives in
+   the **override layer** (`knowledge/overrides.md`): disable / override /
+   exempt / new-rule entries that resolve last and survive skill updates.
+   Authors correct the base through the journal; users reshape through
+   overrides.
+4. **Consent for screen capture.** Screenshots of the *user's own computer or
+   proprietary in-progress work* require explicit consent: ask, name what
+   will be captured and where it will live, wait for the yes. Public web
+   pages opened in the session browser are fair evidence-game by default.
+5. **Report only, unless told otherwise.** Audits do not edit code. If the
    user asks for fixes, finish the audit first, get the report acknowledged,
    then fix in a separate pass.
-5. **Balance is part of rigor.** Record what you checked and found *healthy*,
+6. **Balance is part of rigor.** Record what you checked and found *healthy*,
    not only defects — it claims the coverage and prevents nag-flicker across
    repeat audits.
 
@@ -54,21 +61,26 @@ worse than silence: they burn the user's trust in the report.
 
 ### Phase 1 — Frame (who is this UI for?)
 
-Determine or ask for: app + target user + context of use, the audit scope
-(screen / component / flow / whole app), and — if running — whether live
-inspection (screenshots via browser tools / running app) is possible.
-Pick the **profile** from `knowledge/profiles.md`. If none fits, compose one
-with the user: device context, attention budget, motor precision (in-motion?,
-one-handed?, gloved?), and allowed-pattern exceptions. Write the profile
-choice into the report header.
+Determine or ask for: the audit scope (screen / component / flow / whole
+app), and — if running — whether live inspection (screenshots via browser
+tools / running app) is possible. Then build the **system fingerprint**
+(`knowledge/system-classification.md`): surface, app-kind/profile, suite
+membership + declared sibling design-system policy (`unified` vs
+`themed-variants` vs `independent`), primary audience, primary input, motion
+tolerance, and available evidence surfaces. With the fingerprint set, the
+analysis stance is *fitness to class*: audit the system for deviations from
+what it claims to be. If no profile fits, compose one with the user: device
+context, attention budget, motor precision (in-motion?, one-handed?,
+gloved?), and allowed-pattern exceptions. Write the fingerprint into the
+report header — an audit without one is missing its calibration basis.
 
 ### Phase 2 — Evidence sweep
 
 Gather in increasing order of strength (see `references/severity.md`):
 
-- **Code (T1creenshot)**: read the actual UI code. Start from the signal
-  tables in `references/code-signals.md` (Flutter / React / TS / HTML-CSS).
-  Partial strings over whole files. Track file:line for every finding.
+- **Code (T1)**: read the actual UI code. Start from the signal tables in
+  `references/code-signals.md` (Flutter / React / TS / HTML-CSS). Partial
+  strings over whole files. Track file:line for every finding.
 - **Measured (T0m)**: when a rendered DOM exists, use the `better-design`
   instruments when connected (`inspect-spacing` for spacing evidence,
   `get-review-rules` for copy/AI-tell checks) — these are *instruments* of
@@ -77,6 +89,16 @@ Gather in increasing order of strength (see `references/severity.md`):
 - **On-screen (T0s)**: screenshots or the running app — the only tier allowed
   to certify "looks broken to users". Capture generous viewport screens, not
   fragments — half evidence is how false Blockers happen.
+- **Wireframe (supporting)**: for layout-heavy claims, optionally extract a
+  wireframe first (DOM rect map via `references/wireframe.md` +
+  `scripts/wireframe.py`; screenshot-read for non-DOM surfaces) and critique
+  layout choices against it. Wireframes are supporting evidence for `L-*`
+  findings only, never sole Blocker basis.
+- **Multi-size**: when responsive layout is in scope, evidence must be
+  captured at realistic sizes — phone 320/375/430 css px widths (portrait),
+  tablet ~768, desktop 1440 and 1728; for Flutter use the app's supported
+  form factors or desktop-window resize. Same content, multiple widths, one
+  verdict per width (auto maps to rule `L-5`).
 
 Flows additionally require the **flow map** (Phase 3) before rules apply.
 
