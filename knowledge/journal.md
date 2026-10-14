@@ -276,3 +276,39 @@ vehicle → assignments); passenger search-success path needs a seeded route
 (dense-data script `scripts/seed-audit.py` pending user call); P-4/V-8
 promotion once flows re-verify; overflow-sentinel widget tests at
 360/414/768; remaining portal exemplars (Umami/Matomo/Sentry).
+
+## 2026-10-14 · Morning driver leg + harness techniques (LusakaRide)
+
+**Session injection recipe (goes into the skill)**: Flutter desktop apps keep
+sessions in (a) ONE libsecret item per app — label
+`<appId>/FlutterSecureStorage`, attr account=`<appId>.secureStorage`, secret
+= flat JSON of the Dart keys — and (b) `~/.local/share/<appId>/
+shared_preferences.json` for the user prefs reverse. Provision the identity
+through the API (curl the OTP pair) then write BOTH stores; relaunch and the
+app boots straight into the signed-in state. Caveats learned: the fbss-linux
+plugin's SecretSchema name stays literally "default" regardless of setLabel
+(ctor default), and gnome-keyring assignment raced across two daemons — the
+C-mirror tool (`gcc -lsecret`) matching the plugin's exact calls is the
+reliable verifier; python's Secret.Item.create_sync uses a different schema
+naming. Belt-and-braces: the driver app now also accepts a define-gated
+session override (AUDIT_SESSION_*, audit branch only) — robust against any
+future keyring weirdness.
+
+**Driver-leg findings (fixes shipped)**:
+- *Empty-name greeting*: `driver?.name ?? 'Driver'` misses the EMPTY string —
+  a fresh driver who skipped profile setup saw "Good evening, !" with
+  dangling punctuation. Fixed with a trim-aware `_displayName()` fallback
+  (`d518468`).
+- *Hint-as-data + invisible focus* (BOTH apps' AuthPhoneField): hint was a
+  real-looking number (`971234567`); every InputDecoration border was
+  `InputBorder.none` so keyboard users saw no focused state. Now
+  `e.g. 97 123 4567` + a brand-green 1.5px focused ring (`7c40d03`,
+  `d518468`).
+- *Approval transition verified live*: server-side approve (204) → next app
+  boots reflecting the Active state; 'Needs attention' correctly drops the
+  approval row and lists license/vehicle as remaining tasks. Pending-home
+  copy is truthful (evidence driver-02/03).
+
+**Still open**: vehicle/assignment flows need seeded itineraries (queue);
+passenger wrapper re-verification for V-8/P-4 promotion; remaining portals.
+Overflow sentinels (passenger) shipped earlier: 49 green.

@@ -61,6 +61,56 @@ file continuously so context compaction never loses state.
 
 ## PROGRESS LOG (append newest first)
 
+### 2026-10-14 (morning, final) — driver leg walked, fixes shipped, session recipe
+- **Driver session boot solved (recipe in journal)**: keyring+prefs injection
+  (fbss-linux one-JSON-item format) + define-gated `AUDIT_SESSION_*`
+  override in the driver's SessionStorage (inert in prod) — the app boots
+  straight into the signed-in tenure; approved-state transition verified
+  live after the admin approve (204).
+- **Driver findings fixed** (`d518468`): empty-name greeting dendrité
+  ('Good evening, !' → 'Driver') via `_displayName()`; AuthPhoneField hint
+  (`e.g. 97 123 4567`) + brand-green focus ring. Passenger copy got the
+  same hint/focus fix (`7c40d03`). Suites: driver 87 ✓, passenger 49 ✓.
+- **Second server restart hit between phases** — stack-back procedure
+  (podman start audit-pg → dotnet run 5287 → npm dev 4318) documented and
+  repeatable in <2 min; all git work survived (pushes happened per-batch).
+- **Morning rests on**: merges to develop/main await user review; the
+  passenger V-8/P-4 promotion evidence (search empty-state re-shoot with the
+  login-hint fix) is ONE app relaunch + two taps away; seeded-route success
+  flow + vehicle-walk remain queued behind `scripts/seed-audit.py`.
+
+### 2026-10-14 (late-morning, post server-restart) — session-injection technique + walk resumed
+- **Harness root cause found for the white windows**: Flutter GTK windows do
+  NOT compose their first frame until a real input event arrives — activate +
+  one click then shoot instantly → content paints. Confirmed on release AND
+  debug. (And release mode ≠ cause; capture path healthy all along.)
+- **Flutter-typing killswitch workaround discovered**: GNOME Keyring session
+  injection. Components: flutter_secure_storage_linux stores ONE JSON
+  item (label `com.example.<app>/FlutterSecureStorage`, attr
+  `account=com.example.<app>.secureStorage`) whose keys are the Dart keys
+  (`lr_driver_access_token` …); plus shared_preferences.json in
+  `~/.local/share/com.example.<app>/` for the user id/phone. Provision the
+  identity through the API (curl send-otp/verify-otp — mock 123456), then
+  write both stores, relaunch app → boots straight INTO the session.
+  Reusable for any future pixel-audit session (skill candidate recipe).
+- **Driver identity provisioned on audit DB**: phone +260 97 123 4568, driver
+  id b6530f3a-…, Status Pending (MySQL? no — Postgres). Admin token for
+  approval probe: 200 (`/tmp/opencode/admin-token.txt`).
+- All commits/pushes from the earlier phase survived (passenger sentinels
+  `5a91a65`, A7 web `10fda22`, audit repo `704e82c`, T7 server fix).
+
+### 2026-10-14 (morning) — overflow sentinels shipped; real bug fixed
+- **overflow_sentinel_test.dart** (passenger `audit/ux-1014` 5a91a65):
+  16 assertions × 4 sizes (360/375/414/768) over Login/VerifyOtp/ProfileSetup/
+  ItinerarySearch; boots via AppGlobals + ApiClient(mock) + ApiCacheManager +
+  SharedPreferences mock. First run caught a SHIPPED BUG: search screen
+  count+sort Row overflowed 121px@360, 67px@414 (SegmentedButton ~449px
+  intrinsic). Fixed via LayoutBuilder (stacked below 600px). Full suite 49 ✓.
+- **A7 (web) fixed+verified** (10fda22): CompareFilter between-pair stacked
+  vertically; DOM probe 4/4 at 120–123px clipped 0.
+- **Mobile-leg addendum written into REPORT.md** (T7 incident, P-4/V-8
+  candidates, L-6 promoted, harness lessons).
+
 ### 2026-10-14 (night, later) — gnome-window-control unlocked tomorrow's plan + mobile leg ran
 - **gnome-window-control extension live** (user built it; skill at
   `~/.claude/skills/gnome-window-control/`): window screenshots + REAL clicks/
@@ -93,12 +143,16 @@ file continuously so context compaction never loses state.
   + Search at dy≈413); driver-app leg on audit DB (onboarding → vehicle →
   assignments → manifest); seeded success flow (`scripts/seed-audit.py` —
   user call); P-4/V-8 promotion after re-verification; overflow-sentinel
-  widget tests at 360/414/768; remaining portals (Umami/Matomo/Sentry);
-  merges to develop/main for user review.
+  widget tests at 360/414/768 [DONE — see morning entry]; remaining portals
+  (Umami/Matomo/Sentry); merges to develop/main for user review.
 - Processes: API 5287 fixed-branch build on audit DB (bg shell), admin
   4318, marketing 4173 (http.server on dist), passenger window id
   2635293260 @(773,127), driver 2635293261 @(823,177) — driven via
   gnome-window-control only (Flutter web 4320 no longer needed).
+  [UPDATE after server restart: ALL bg shells killed; audit DB container
+  restarted `lusakaride-audit-pg`; API 5287 + admin 4318 relaunched;
+  marketing 4173 still to relaunch; app windows to be relaunched as
+  needed via release builds + click-for-first-frame.]
 
 ### 2026-10-14 (night, late) — state lock for morning handoff
 - **DONE/pushed** (audit branches): admin-web A1/A2/A3/A4+A6 (empty-state copy
