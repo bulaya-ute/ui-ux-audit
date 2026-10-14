@@ -197,3 +197,42 @@ logged; hay matches team preference to not force).
 
 **KB effect**: none structural; X-5 gains locale-awareness nuance. Rule count
 unchanged at 39. Evidence: 2 new screenshots in docs/img.
+---
+
+## 2026-10-14 · REAL AUDIT 1 — LusakaRide admin web + marketing site (calibration)
+
+Full two-system audit per the six-phase protocol (REPORT.md + wireframes +
+JSON in audits/2026-10-14/). Artifacts centralized in the skill repo instead
+of the audited private repos — deliberate deviation for a private codebase,
+revisit if in-repo trend tracking becomes valuable.
+
+**Findings**: admin 6 (3 Major: V-2 empty-copy case, A-2 no aria-sort,
+N-3 non-collapsing collapse; 1 X-1 probable suite drift; 2 Minor) · marketing
+5 (M1 fake-data-to-AT Major→Minor after profile calibration: public page,
+single-visit comprehension cost; C-1/C-3 Minor; L-5 Probable; one borderline
+AA-large healthy-with-headroom). 0 Blockers — correct for a codebase that
+already went through T7 + campaigns.
+
+**Tooling lessons (the adaptive loop in action)**:
+- **Contrast probes must alpha-blend through the ancestor chain** — the first
+  probe ignored (a) bg gradients (backgroundImage ≠ backgroundColor) and
+  (b) fractional alpha layers, false-failing the CTA band (2.12 fake) and
+  mangling the seats chip (20.08 fake). Manual blend math corrected both:
+  chip ≈ 7.4:1 PASS, band ≈ 6.5:1 PASS, hero accent ≈ 3.6:1 (AA-large pass,
+  thin margin). Promote to candidates: **T0m probe correctness rules** —
+  journal only, implementation detail for the next audit agent.
+- **React SPA clicks**: synthetic `el.click()` didn't drive the sidebar
+  collapse reliably; the ref-based click path did — evidence acquisition
+  should prefer ref clicks for SPA state changes (journal note).
+
+**Profile experiences**:
+- `admin-data-dense` confirmed: density and structure handled well; the
+  failures were *state copy*, *semantics*, and *affordance promises* — the
+  exact triad the profile tightens.
+- `marketing-landing`: token cleanliness high (built with the KB in mind);
+  the residual findings are the AT-leak class (M1) and micro-hygiene —
+  matches expectations for a fresh KB-informed build: the loop works.
+
+**Stale-board discipline validated**: two previously "known" issues
+(Approvals dead endpoints, duplicated pagination after T7) did NOT resurface
+— re-verifying before citing prevented resurrecting fixed defects.
