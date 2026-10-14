@@ -61,6 +61,45 @@ file continuously so context compaction never loses state.
 
 ## PROGRESS LOG (append newest first)
 
+### 2026-10-14 (night, later) — gnome-window-control unlocked tomorrow's plan + mobile leg ran
+- **gnome-window-control extension live** (user built it; skill at
+  `~/.claude/skills/gnome-window-control/`): window screenshots + REAL clicks/
+  typing. Flutter **web synthetic-semantics** limitation MOOT for desktop
+  builds — molten path: run app as Linux build with harness → drive + shoot.
+- **T7 server regression caught live during passenger audit**:
+  search 500'd (`StopIds.Contains` JSON-column query untranslatable, again).
+  Fix in-memory post-materialization committed on server `audit/ux-1014`;
+  API relaunched on audit DB; curl-verified 200 + `totalCount:0`.
+- **Passenger count-fix shipped** (`f00e05b`, passenger `audit/ux-1014`):
+  route-count blanked while error shown (V-8 candidate re: contradictory
+  "0 routes found" + error panel). Re-verify live in morning.
+- **Admin A7 found+fixed+verified** (`10fda22`, web `audit/ux-1014`):
+  CompareFilter side-by-side between-pair clipped native date inputs
+  ("dc📅") + number placeholders ("M⇅") at default column widths — stacked
+  vertically; DOM probe: 4 inputs at 120–123px, clipped 0 (was 4). KB rule
+  **L-6 promoted established**. Also re-verified A1/A2/A3/A4 live on
+  /bookings via DOM probe (new copy ✓, no old copy ✓, 9 aria-sort ✓,
+  brand #4ebb78 ✓, collapse ✓) + Passengers window screenshot.
+- **KB seeds**: P-4 (permission-ask-context-gated, candidate),
+  V-8 (stale-metric-beside-error, candidate), L-6 established (42 rules now).
+  REPORT.md mobile-leg addendum + journal entry written.
+- **Harness lessons logged**: click element vertical centers (1px above edge
+  = silent dead click); overlapping 375×859 windows swap click targets —
+  separate windows spatially; screenshot-feedback-every-step (row geometry
+  shifts with data). Passenger flows verified live tonight: OTP login →
+  profile → home → From picker (+ exclusion + clear) → To picker → search
+  error path → (fixed server) empty-state path pending visual re-shoot.
+- **Morning queue**: re-shoot passenger search empty-state (To-click center
+  + Search at dy≈413); driver-app leg on audit DB (onboarding → vehicle →
+  assignments → manifest); seeded success flow (`scripts/seed-audit.py` —
+  user call); P-4/V-8 promotion after re-verification; overflow-sentinel
+  widget tests at 360/414/768; remaining portals (Umami/Matomo/Sentry);
+  merges to develop/main for user review.
+- Processes: API 5287 fixed-branch build on audit DB (bg shell), admin
+  4318, marketing 4173 (http.server on dist), passenger window id
+  2635293260 @(773,127), driver 2635293261 @(823,177) — driven via
+  gnome-window-control only (Flutter web 4320 no longer needed).
+
 ### 2026-10-14 (night, late) — state lock for morning handoff
 - **DONE/pushed** (audit branches): admin-web A1/A2/A3/A4+A6 (empty-state copy
   + branch behavior, aria-sort, icon-rail collapse, LrBrand suite tokens);
@@ -80,18 +119,19 @@ file continuously so context compaction never loses state.
   DWDS → null-arg failure). NEXT (morning): semantics via a real screen
   reader/Slow DevTools, OR Flutter widget tests as overflow sentinels at
   360/414 (deterministic T0m), OR user-driven device walk-through with the
-  installed APK (best fidelity anyway).
+  installed APK (best fidelity anyway). [UPDATE: resolved by
+  gnome-window-control — see the later log entry above.]
 - **Real mobile finding already in hand (candidate)**: location-permission
   gate shows PRE-LOGIN on launch (screenshot in evidence set) — premature
   permission ask; should be context-gated (only when the map is relevant).
-  Candidate rule seed: P-4 `permission-ask-context-gated`.
+  Candidate rule seed: P-4 `permission-ask-context-gated`. [SEEDED in KB.]
 - **Infra live for morning**: API:5287 → audit DB (lusakaride_audit,
   15 seeded locations; server auto-seeds); admin dev:4318; marketing
   preview:4173; passenger web build:4320 (via harness page in web/ folder);
   evidence http server:4321. `pkill -f` self-match hazard noted — kill by
   `/bin/` DLL path or exact port PID.
-- Branches: all four target repos on `audit/ux-1014` (server stayed develop,
-  untouched).
+- Branches: all four target repos on `audit/ux-1014` (server now holds the
+  T7 fix on its audit branch too).
 
 ### 2026-10-14 (night) — setup
 - WORKSTATE created; audit DB plan set.

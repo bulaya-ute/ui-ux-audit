@@ -79,3 +79,59 @@ Skip-link ✓ · visible focus ring ✓ · reduced-motion guards ✓ (`anim-rise
 3. **M2 + M3 + M1** marketing hygiene trio (20 min total)
 4. **A3** icon-rail implementation (1–2 h; affects Shell CSS only)
 5. **M4** real phone-width captures (5 min on a phone)
+
+---
+
+## Mobile-leg addendum (2026-10-14 night, live app run)
+
+Run at 375×812 desktop-window instances of both Flutter apps (audit harness,
+`AUDIT_WINDOW_CONTROLS=true`), driving the live audit DB (`lusakaride-audit-pg`)
+through `gnome-window-control`. Passenger leg went: OTP login (masked
+971••••567, mock OTP) → profile setup → home → From/To pickers → search.
+
+### T7 incident (server regression caught live)
+
+First search tap returned the app's error screen **behind** a "Route search
+could not be completed" state — server logs showed `GET /api/itineraries?
+boardingLocationId=…&alightingLocationId=…` → **500**.
+`ItineraryService.ListAsync` filtered with `StopIds.Contains` directly on the
+JSON column — plan-translator-untranslatable after a recent regression, i.e.
+the T7 area bit again. **Fix applied** (filter in memory after
+materialization; commit on server `audit/ux-1014`), API restarted, verified:
+same query now 200 `{"items":[],"totalCount":0}`.
+
+### V-8 candidate · stale-count-beside-error (observed on passenger app)
+
+With the (pre-fix) server 500 up, the search screen paired **"0 routes
+found"** with the error panel — a count from the previous run beside
+"Could not load routes". Fix shipped on passenger `audit/ux-1014`
+(`f00e05b`): count blanked while `_error != null`. Candidate until the
+corrected flow is re-verified live.
+
+### P-4 candidate · permission-ask-context-gated (observed)
+
+Location-permission nudge appeared as its own step in passenger onboarding
+(pre-login capture, night-1014 evidence). Proposed rule: ask for
+permissions **at the moment of need**, with one-line justification tied to
+the action the user is already taking — never as an orphan pre-flight step.
+
+### A7 · MAJOR · L-2 native-input-intrinsic-width (fixed & verified)
+
+`CompareFilter` side-by-side min/max (auditor found on Passengers
+Joined/Rating columns, dev-server capture):
+~53px per input clips native date inputs to an unreadable squished-calendar
+("dc📅") and number placeholders to "M⇅". **Fix**: stack the between pair
+vertically (web `audit/ux-1014` `10fda22`). Verified by DOM probe: all four
+between inputs at 120–123px, clipped count 0 (was 4). Promoted KB rule
+**L-6**, `established`.
+
+### Audit-harness learnings (for the skill, not the product)
+
+- Sub-pixel field clicks: click the element's vertical **center**; a click
+  1px above a field's top edge silently does nothing.
+- Two 375×859 Flutter windows overlapped at (773,127)/(823,177): clicks
+  computed from one window's frame can land on the other's pixels when it
+  is stacked on top. Tile/offset windows apart before driving.
+- Flutter **desktop** windows drive fine via real input where Flutter-web
+  synthetic semantics resisted; screenshot-driven feedback each step is the
+  reliable loop when row heights shift between captures.

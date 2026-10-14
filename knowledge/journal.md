@@ -236,3 +236,43 @@ already went through T7 + campaigns.
 **Stale-board discipline validated**: two previously "known" issues
 (Approvals dead endpoints, duplicated pagination after T7) did NOT resurface
 — re-verifying before citing prevented resurrecting fixed defects.
+
+## 2026-10-14 · Night mobile leg (LusakaRide, live apps on audit DB)
+
+**T7 incident — a real server regression caught by pixel-level UX auditing.**
+Passenger search → `GET /api/itineraries?boarding/alighting` 500'd: the
+stop-filter ran `StopIds.Contains` on the JSON column (plan-untranslatable
+again in `ItineraryService.ListAsync`). Fixed in memory post-materialization
+(server `audit/ux-1014`), restarted, curl-verified 200 + empty payload.
+
+**Two new candidates + one promotion.**
+- **V-8** stale-metric-beside-error (observed: "0 routes found" + error panel
+  on the same screen; app fix shipped, re-verify live before promoting).
+- **P-4** permission-ask-context-gated (observed pre-login location gate).
+- **L-6 promoted to established**: A7 in the web re-check — CompareFilter's
+  side-by-side between-pair clipped native date inputs (~53px/month) and
+  number placeholders at default column widths; stacked vertically, verified
+  by DOM probe (4 inputs at 120–123px, clipped 0; commit 10fda22).
+
+**Admin re-verification (dev 4318, audit branch)**: Bookings DOM probe —
+new empty copy ✓, old copy gone ✓, 9 `aria-sort` ✓, `--brand` #4ebb78 ✓,
+collapse button ✓; Passengers window capture shows truthful empty-state +
+green active-item + collapse affordance live.
+
+**Harness discipline learned (goes in the skill one day):**
+- click element vertical centers — 1px off a field edge = silent dead click;
+- overlapping 375×859 windows swap click targets when frames intersect;
+  separate windows spatially before pointer work;
+- screenshot-feedback-per-step beats coordinate memory when list geometry
+  shifts with data.
+
+**Flutter-web note closed**: with gnome-window-control the desktop-build
+drive worked enough to complete login → profile → pickers → search → error
+recovery; the previous "mobile widget-driving resists synthetic semantics"
+limitation is now moot for desktop-build instances.
+
+**Still open (morning queue)**: driver-app leg on audit DB (onboarding →
+vehicle → assignments); passenger search-success path needs a seeded route
+(dense-data script `scripts/seed-audit.py` pending user call); P-4/V-8
+promotion once flows re-verify; overflow-sentinel widget tests at
+360/414/768; remaining portal exemplars (Umami/Matomo/Sentry).
