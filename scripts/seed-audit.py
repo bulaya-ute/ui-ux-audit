@@ -185,10 +185,11 @@ def seed_itineraries(admin: str) -> list[dict]:
     stops = [r['id'] for r in rows][:5]
     names = {r['id']: r.get('name', '?') for r in rows}
 
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%d')
     plans = [
-        ('AUDIT Zed Audit AM 07:30 Arcades→Ibex', 1, stops[:3]),
-        ('AUDIT Zed Audit Midday 12:10 Town Loop', 4, stops[:4]),
-        ('AUDIT Zed Audit Evening 17:45 Libala→Makeni', 8, stops[2:5]),
+        (f'AUDIT ride {stamp} Morning run', 1, stops[:3]),
+        (f'AUDIT ride {stamp} Midday run', 4, stops[:4]),
+        (f'AUDIT ride {stamp} Evening run', 8, stops[2:5]),
     ]
     now = datetime.now(timezone.utc)
     seeded = []
@@ -246,13 +247,23 @@ def seed_assignments(admin: str, driver_token: str, vehicle_id: str, itineraries
     return done
 
 
-def seed_bookings(passenger_token: str, admin: str, itineraries: list[dict]) -> int:
-    step('bookings for the audit passenger')
+def seed_bookings(passenger_token: str, admin: str, itineraries: list[dict]) -> int:    step('bookings for the audit passenger')
     if not itineraries:
         print('   nothing to book on')
         return 0
+    # Never double-book: skip itineraries the passenger already holds a
+    # booking for (any status).
+    already: set[str] = set()
+    code_m, mine = call('GET', '/api/bookings?page=1&pageSize=100', token=passenger_token)
+    rows_m = mine.get('items') if isinstance(mine, dict) else mine
+    if isinstance(rows_m, list):
+        already = {str(r.get('itineraryId')) for r in rows_m if r.get('itineraryId')}
     found = 0
     for itin in itineraries:
+        if str(itin['id']) in already:
+            print(f'   already booked: {itin["name"][:34]}')
+            found += 1
+            continue
         stops = (itin.get('stopIds') if itin.get('stopIds') is not None else None)
         if not stops:
             # List rows carry stopCount only — pull the detail for location ids.
