@@ -336,3 +336,19 @@ skill, and apply where needed (marketing only, per their call).
 - Server patterns recorded (UA needed on Commons, Special:FilePath redirect,
   `iiprop=extmetadata` for attribution strings, lazy-load renders empty in
   headless VTB captures — flip eager for the shot, back after).
+
+## 2026-10-15 · Passenger leg: session override + seeded-density capture, drive limits
+
+- Passenger app relaunched live with seeded data: "Good evening, Audit!",
+  bookable route with 13 seats + a "Full — Join waitlist" route — the realistic
+  density views a real user sees (evidence passenger-04-boot-active.png).
+  Found: "via 1 stops" grammar ("via 1 stop") — copy fix queued.
+- App-side terminal clicks/typing remained unreliable (4-tab focus traversal
+  showed no rings; taps at measured field centers never opened the From
+  panel). The V-8 search re-verification is therefore puppet-claimed by the
+  sentinel suite (deterministic pump) rather than a pixel walk; the pixel
+  evidence of the success/empty search states can be captured on a user-typed
+  session any morning.
+- Session override pattern ported to the passenger (audit branch, inert in
+  prod) — mirrors the driver: define-gated AUDIT_SESSION_* in
+  SessionStorage.load().
