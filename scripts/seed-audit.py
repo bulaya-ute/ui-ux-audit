@@ -247,7 +247,8 @@ def seed_assignments(admin: str, driver_token: str, vehicle_id: str, itineraries
     return done
 
 
-def seed_bookings(passenger_token: str, admin: str, itineraries: list[dict]) -> int:    step('bookings for the audit passenger')
+def seed_bookings(passenger_token: str, admin: str, itineraries: list[dict]) -> int:
+    step('bookings for the audit passenger')
     if not itineraries:
         print('   nothing to book on')
         return 0
