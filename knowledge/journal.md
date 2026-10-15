@@ -312,3 +312,27 @@ future keyring weirdness.
 **Still open**: vehicle/assignment flows need seeded itineraries (queue);
 passenger wrapper re-verification for V-8/P-4 promotion; remaining portals.
 Overflow sentinels (passenger) shipped earlier: 49 green.
+
+## 2026-10-15 · Free imagery for the marketing site (user request)
+
+User asked to source legally-clean free images, document the sources in the
+skill, and apply where needed (marketing only, per their call).
+
+- Sources verified from their license pages: Pexels (no attribution needed,
+  no unaltered-resale), Pixabay (same class + trademark caution), Unsplash
+  (page 401s bots — verify manually when citing exact terms), Wikimedia
+  Commons (per-file CC; attribution REQUIRED for CC BY/BY-SA), Openverse API
+  (cc0/pdm filter + ready attribution strings).
+
+- Applied to the marketing site (audit branch `317126b`):
+  - How-it-works strip: real Lusaka cross-bridge (Manda Hill) — CC BY-SA 4.0
+    by Mondoka Zambia; actually Lusaka (place-honesty enforced), no
+    burned-in text, minimal people.
+  - For-drivers strip: Kalambo Road intersection — CC BY 2.0 by afromusing.
+  - docs/IMAGE-CREDITS.md carries full provenance + the catalog for future
+    additions. Rejected "Bus Terminus" (burned-in magazine claims) and
+    Eswatini/Nairobi street stand-ins (honesty).
+
+- Server patterns recorded (UA needed on Commons, Special:FilePath redirect,
+  `iiprop=extmetadata` for attribution strings, lazy-load renders empty in
+  headless VTB captures — flip eager for the shot, back after).
