@@ -61,6 +61,26 @@ file continuously so context compaction never loses state.
 
 ## PROGRESS LOG (append newest first)
 
+### 2026-10-15 (morning-2) — stock-imagery pipeline + passenger seeded capture
+- **User request fulfilled — free imagery**: sources verified from their
+  license pages (Pexels/Pixabay/Unsplash/Commons/Openverse: see
+  `knowledge/stock-image-sources.md`), and TWO real-Lusaka CC photos wired
+  into the marketing site (Manda Hill bridge strip on How-it-works; Kalambo
+  Road intersection on For-drivers) with `docs/IMAGE-CREDITS.md` provenance.
+  Rejected: Bus-Terminus (burned-in magazine typography) and non-Lusaka
+  stand-in streets. Evidence: desktop + mobile strips; lazy-load renders
+  blank in headless VTB captures — flip eager for the shot, back after.
+- **Passenger seeded capture**: logged-in home with 13-seat bookable route +
+  "Full — Join waitlist" route (passenger-04-boot-active.png). Copy bug:
+  "via 1 stops" → fix queued ('via 1 stop' when count is 1).
+- **Morning queue final**: (1) 'via 1 stops' copy fix both apps if the
+  passenger copy has it (which file?) + re-push; (2) V-8/P-4 promotion
+  (the sentinel-suite path already covers V-8 preconditions; P-4 gate
+  evidence needs the user's fresh retake); (3) driver vehicle/assignment
+  walk needs real UI interaction — user-driven next; (4) merges to
+  develop/main after user reviews the commits; (5) seed script rerun-safe
+  — future audits can rebuild data in 1.6 s.
+
 ### 2026-10-14 (morning, final) — driver leg walked, fixes shipped, session recipe
 - **Driver session boot solved (recipe in journal)**: keyring+prefs injection
   (fbss-linux one-JSON-item format) + define-gated `AUDIT_SESSION_*`

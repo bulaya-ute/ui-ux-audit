@@ -352,3 +352,24 @@ skill, and apply where needed (marketing only, per their call).
 - Session override pattern ported to the passenger (audit branch, inert in
   prod) — mirrors the driver: define-gated AUDIT_SESSION_* in
   SessionStorage.load().
+
+## 2026-10-15 · Cross-browser dark-border visibility (env lesson, do not repeat)
+
+During the palette-picking exercise the agent REMOVED and re-fattened table
+borders three times based on Chromium-based headless/Review renders — while
+the user's own Firefox showed the ORIGINAL regular borders clearly all
+along. Cause profile: the reviewing browser's dark gamma/color management
+made 1px #1c2023-on-#0d1011-adjacent greys invisible in one engine yet
+visible in another. Consequences recorded:
+
+- NEVER "fix" faint visible borders based on a single browser's dark
+  rendering; ask the user which browser they use and verify there first
+  (the user's browser is the acceptance target, not the agent's).
+- WCAG 1.4.11's 3:1 non-text threshold still matters for *meaningful state
+  boundaries*, but regular table gridlines are decoration-adjacent; treat
+  reweighting as a design decision only when the user's OWN browser shows
+  the problem.
+- Chalked up attempts: v2 (1.5px/2px 3:1-boosted), v3 (same + heavier) both
+  reverted to v1-regular per user call 2026-10-15; kept: text-only status
+  columns (their explicit instruction) + deeper selected-row fills (their
+  explicit instruction).
